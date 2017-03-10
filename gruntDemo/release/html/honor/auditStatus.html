@@ -1,0 +1,177 @@
+<!doctype html>
+<html ac-moduleUrl="/grow/honor/record/">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>学生综合素质评价</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"/>
+    <link rel="stylesheet" href="/css/main.css">
+    <!--自定义样式区-->
+    <style>
+        .ms-controller, .ms-important, [ms-controller], [ms-important] {
+            visibility: hidden;
+        }
+        .too_much_text {
+            word-wrap: break-word; word-break: break-all;
+            text-align: left !important;
+        }
+    </style>
+    <script language="JavaScript" charset="utf-8" src="../../libs/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../libs/jquery.cookie.js"></script>
+    <script language="JavaScript" charset="utf-8" src="../../js/js_pack.js"></script>
+    <script language="JavaScript" charset="utf-8" src="../../libs/esaas.js"></script>
+    <script language="JavaScript" charset="utf-8" src="../../libs/layer/layer.js"></script>
+    <script language="JavaScript" charset="utf-8" src="../../libs/avalon.js"></script>
+    <script language="JavaScript" charset="utf-8" src="../../libs/store.min.js"></script>
+    <script language="JavaScript" charset="utf-8" src="../../js/common/jquery.authController.js"></script>
+    <script language="JavaScript" charset="utf-8" src="../../js/common/common.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../js/common/header.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../js/honor/auditStatus.js"></script>
+
+</head>
+
+<body class="ai-w-big" id="auditStatus" ms-controller="auditStatus">
+<!--顶部-->
+<div ms-controller="vmHeaderPage" ms-include-src="'../public/head.html'" data-include-rendered="initESAASBAR"></div>
+
+<div class="qky_content">
+    <div class="judge_wraper judge_w_n">
+        <div class="judge_cont_2">
+            <div class="cont_tit">
+                <div class="fr"><a ms-click="goBack" class="bg_blue"><i class="qkyicon">&#xe6ea;</i>返回</a></div>
+                <div class="fl"><h3><i class="qkyicon fz_1">&#xe6ac;</i>审核状态</h3>
+                </div>
+            </div>
+
+            <div>
+                <div class="judge_tit judge_tab-t">
+                    <ul class="ul_mage">
+                        <li><a ms-click="changeQueryStatus(AUDIT_STATUS_AUDITING)" ms-class="current:queryAuditStatus === AUDIT_STATUS_AUDITING">审核中</a></li>
+                        <li><a ms-click="changeQueryStatus(AUDIT_STATUS_REJECTED)" ms-class="current:queryAuditStatus === AUDIT_STATUS_REJECTED">未通过</a></li>
+                        <li><a ms-click="changeQueryStatus(AUDIT_STATUS_PASS)" ms-class="current:queryAuditStatus === AUDIT_STATUS_PASS">已通过</a></li>
+                        <li><a ms-click="changeQueryStatus(AUDIT_STATUS_NOT_SUBMITTED)" ms-class="current:queryAuditStatus === AUDIT_STATUS_NOT_SUBMITTED">未提交</a></li>
+                    </ul>
+                </div>
+                <div class="judge_srh srh_hon">
+                    <ul class="ul_srh">
+                        <li><span>当前学期：</span>
+                            <select ms-duplex-string="termCode">
+                                <option ms-repeat="schoolTerms" ms-attr-value="el.code">{{el.name}}</option>
+                            </select>
+                        </li>
+                        <li ms-if="vmHeaderPage.userType == 1"><span>当前年级：</span>
+                            <select  ms-duplex-string="gradeCode" style="width: 95px;">
+                                <option value="" selected>全部年级</option>
+                                <option ms-repeat="grades" ms-attr-value="el.code">{{el.name}}</option>
+                            </select>
+                        </li>
+                        <li ms-if="vmHeaderPage.userType == 1"><span>当前班级：</span>
+                            <select ms-duplex-string="classCode" style="width: 95px;">
+                                <option value="" selected>全部班级</option>
+                                <option ms-repeat="classes" ms-attr-value="el.code">{{el.name}}</option>
+                            </select>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="stu_jcont list-02">
+                    <table width="100%" border="0" cellspacing="1" cellpadding="1"  class="judge_table jdg_table02">
+                        <tr>
+                            <th width="6%" scope="col">学生</th>
+                            <th width="7%" scope="col">班级</th>
+                            <th width="13%" scope="col">获奖名称</th>
+                            <th width="7%" scope="col">荣誉级别</th>
+                            <th width="9%" scope="col">获奖时间</th>
+                            <th width="16%" scope="col">获奖评语</th>
+                            <th width="6%" scope="col">申报人</th>
+                            <th ms-if="queryAuditStatus === AUDIT_STATUS_REJECTED || queryAuditStatus === AUDIT_STATUS_PASS" width="6%" scope="col">审核人</th>
+                            <th width="7%" scope="col">审核状态</th>
+                            <th width="25%" scope="col">操作</th>
+                        </tr>
+                        <tr ms-if="queryAuditStatus === AUDIT_STATUS_NOT_SUBMITTED" ms-repeat="honorRecords">
+                            <td>{{el.studentName}}</td>
+                            <td>{{el.className}}</td>
+                            <td class="too_much_text">{{el.name}}</td>
+                            <td>{{el.degreeName}}</td>
+                            <td>{{el.honorDate | date('yyyy-MM-dd')}}</td>
+                            <td class="too_much_text">{{el.remark}}</td>
+                            <td>{{el.applyUserName}}</td>
+                            <td><span  class="co_b"><i class="qkyicon fz_1">&#xe701;</i>未提交</span></td>
+                            <td><a ms-click="editHonorRecord(el.code, AUDIT_STATUS_NOT_SUBMITTED)" class="a_btn">编辑</a><a ms-click="deleteRecord(el.code)" class="a_btn" ac-authCode="delete">删除</a></td>
+                        </tr>
+                        <tr ms-if="queryAuditStatus === AUDIT_STATUS_AUDITING" ms-repeat="honorRecords">
+                            <td>{{el.studentName}}</td>
+                            <td>{{el.className}}</td>
+                            <td class="too_much_text">{{el.name}}</td>
+                            <td>{{el.degreeName}}</td>
+                            <td>{{el.honorDate | date('yyyy-MM-dd')}}</td>
+                            <td class="too_much_text">{{el.remark}}</td>
+                            <td>{{el.applyUserName}}</td>
+                            <td><span class="co_b"><i class="qkyicon fz_1">&#xe701;</i>审核中</span></td>
+                            <td><a ms-attr-href="honorRecordInfo.html?code={{el.code}}&backKey={{AUDIT_STATUS_AUDITING}}" class="a_btn">查看</a></td>
+                        </tr>
+                        <tr ms-if="queryAuditStatus === AUDIT_STATUS_PASS" ms-repeat="honorRecords">
+                            <td>{{el.studentName}}</td>
+                            <td>{{el.className}}</td>
+                            <td class="too_much_text">{{el.name}}</td>
+                            <td>{{el.degreeName}}</td>
+                            <td>{{el.honorDate | date('yyyy-MM-dd')}}</td>
+                            <td class="too_much_text">{{el.remark}}</td>
+                            <td>{{el.applyUserName}}</td>
+                            <td>{{el.auditUserName}}</td>
+                            <td><span class="co_b"><i class="qkyicon fz_1">&#xe701;</i>已通过</span></td>
+                            <td><a ms-attr-href="honorRecordComment.html?code={{el.code}}&backKey={{AUDIT_STATUS_PASS}}" class="a_btn">查看</a></td>
+                        </tr>
+                        <tr ms-if="queryAuditStatus === AUDIT_STATUS_REJECTED" ms-repeat="honorRecords">
+                            <td>{{el.studentName}}</td>
+                            <td>{{el.className}}</td>
+                            <td class="too_much_text">{{el.name}}</td>
+                            <td>{{el.degreeName}}</td>
+                            <td>{{el.honorDate | date('yyyy-MM-dd')}}</td>
+                            <td class="too_much_text">{{el.remark}}</td>
+                            <td>{{el.applyUserName}}</td>
+                            <td>{{el.auditUserName}}</td>
+                            <td><a ms-click="seeRejectedMsg(el.auditDesc)" class="co_y a-fail"><i class="qkyicon">&#xe6ca;</i><strong>未通过</strong></a></td>
+                            <td><a ms-attr-href="honorRecordInfo.html?code={{el.code}}&backKey={{AUDIT_STATUS_REJECTED}}"  class="a_btn">查看</a><a ms-click="editHonorRecord(el.code, AUDIT_STATUS_REJECTED)" class="a_btn" ac-authCode="add">重新申报</a><a ms-click="deleteRecord(el.code)" class="a_btn" ac-authCode="delete">删除</a></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="judge_rep" id="noDataTip_honor_auditStatus" style="display: none">
+                    <div class="jdg-tips">
+                        <h3 class="h3-tips"><img src="../../images/stu_judge/sorry.png"/></h3>
+                        <p class="p-tips">当前暂无数据</p>
+                    </div>
+                </div>
+                <div class="div-page">
+                    <a ms-click="queryPage(pageNo-1)" href="javascript:;" ms-class="no:pageNo-1<1">上一页</a>
+                    <a ms-click="queryPage(1)" href="javascript:;" ms-if="pageNo-2>1">1</a>
+                    <span ms-if="pageNo-2>2">...</span>
+                    <a ms-click="queryPage(pageNo-2)" href="javascript:;" ms-if="pageNo-2>0">{{pageNo-2}}</a>
+                    <a ms-click="queryPage(pageNo-1)" href="javascript:;" ms-if="pageNo-1>0">{{pageNo-1}}</a>
+                    <a href="javascript:;" class="cur">{{pageNo}}</a>
+                    <a ms-click="queryPage(pageNo+1)" href="javascript:;" ms-if="pageNo+1<=total">{{pageNo+1}}</a>
+                    <span ms-if="total>pageNo+2">...</span>
+                    <a ms-click="queryPage(total)" href="javascript:;" ms-if="total>pageNo+1">{{total}}</a>
+                    <a ms-click="queryPage(pageNo+1)" href="javascript:;" ms-class="no:pageNo+1>total">下一页</a>
+                    <span>共{{records}}条</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--页脚-->
+<div ms-include-src="'../public/foot.html'" data-include-replace="true"></div>
+
+
+<div class="yc" id="rejected">
+    <div class="main_cont">
+        <div class="nopass_list">
+            <span>未通过原因：</span><span class="sp_nopass">{{rejectedMsg}}</span>
+        </div>
+    </div>
+    <div class="mask_btns"><a ms-click="closeLayer" class="bg_w">关闭</a></div>
+</div>
+
+
+</body>
+</html>
