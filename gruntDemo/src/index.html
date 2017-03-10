@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>学生综合素质评价系统-欢迎您</title>
+    <!--[if lt IE 8]><script type="text/javascript" src="../libs/json2.js"></script><![endif]-->
+    <script type="text/javascript" src="../libs/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../libs/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../libs/layer/layer.js"></script>
+    <script type="text/javascript" src="../libs/avalon.js"></script>
+    <script type="text/javascript" src="../libs/store.min.js"></script>
+    <script type="text/javascript" src="../js/common/jquery.authController.js"></script>
+    <script type="text/javascript" src="../js/common/common.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            getCommonConfigFun();
+            getUserInfo(function (bizData) {
+                if(bizData.projectInfo&&bizData.projectInfo.name){
+                    //清理权限缓存
+                    jQuery(document).authController('clearPermissions');
+
+                    if(bizData.account.userType == 4){
+                        window.location.href="/html/evalRecord/stuEvalForStu.html";
+                    }else{
+                        if(jQuery(document).authController('check','/grow/eval/record/query')==1){
+                            window.location.href="/html/evalRecord/stuEvalForTea.html";
+                        }else{
+                            window.location.href="/html/dangan/listDangan.html";//没有学生评价模块查询权限，则默认跳转到学生档案页
+                        }
+                    }
+                }else{
+                    layer.alert('抱歉！你暂时没有该应用的访问权限');
+                }
+            })
+        });
+    </script>
+</head>
+
+<body>
+</body>
+</html>
