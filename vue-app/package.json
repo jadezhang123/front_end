@@ -14,6 +14,9 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "air-datepicker": "^2.2.3",
+    "axios": "^0.16.2",
+    "jquery": "latest",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },

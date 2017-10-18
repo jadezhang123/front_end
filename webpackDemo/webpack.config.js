@@ -2,12 +2,16 @@
  * Created by Zhang Junwei on 2017/3/11.
  */
 var webpack = require('webpack');
-
+var path = require('path');
 module.exports = {
-    entry: './src/js/index.js',
+    entry: {
+        home: ['degree.js', 'project.js', 'setting.js'],
+        about: "./about.js",
+        contact: "./contact.js"
+    },
     output: {
-        path: __dirname,
-        filename: 'src/js/bundle.js'
+        path: path.resolve(__dirname, "release"),
+        filename: 'js/[name]-[chunkhash].js'
     },
     module: {
         loaders: [
