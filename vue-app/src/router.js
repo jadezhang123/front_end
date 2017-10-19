@@ -9,7 +9,19 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    component: resolve => require(['./components/HelloWorld.vue'], resolve)
+    component: resolve => require(['./components/HelloWorld.vue'], resolve),
+    children: [
+      {
+        path: '',
+        component: resolve => require(['./components/sub/Navigation.vue'], resolve),
+        children: [
+          {
+            path: '',
+            component: resolve => require(['./components/sub/Bottom.vue'], resolve)
+          }
+        ]
+      }
+    ]
   },
   {
     path: '/foo',

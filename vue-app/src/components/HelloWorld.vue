@@ -1,9 +1,9 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1 @bottom_click="bottomClick">{{ msg }}</h1>
+    <router-view @nav_click="navClick"></router-view>
     <h2>Essential Links</h2>
     <router-link class="text-df" to="/foo" exact> to Foo</router-link>
-    <router-link class="text-df" to="/bar" exact> to Bar</router-link>
     <ul>
       <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
       <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
@@ -23,29 +23,45 @@
 </template>
 
 <script>
-export default {
-  name: 'HelloWorld',
-  data: () => ({msg: 'Welcome to Your Vue.js App'})
-}
+  import {EventBus} from '../resources'
+
+  export default {
+    name: 'HelloWorld',
+    created: function () {
+      EventBus.$on('bottom_click', this.bottomClick)
+    },
+    beforeDestroy: function () {
+      EventBus.$off('bottom_click', this.bottomClick)
+    },
+    data: () => ({msg: 'Welcome to Your Vue.js App'}),
+    methods: {
+      navClick: function (index) {
+        this.msg = 'nav ' + index + ' clicked'
+      },
+      bottomClick: function () {
+        this.msg = 'bottom clicked'
+      }
+    }
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
+  h1, h2 {
+    font-weight: normal;
+  }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
 
-a {
-  color: #42b983;
-}
+  a {
+    color: #42b983;
+  }
 </style>

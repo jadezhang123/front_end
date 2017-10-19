@@ -1,6 +1,7 @@
 /**
  * Created by Zhang Junwei on 2017/10/18.
  */
+import Vue from 'vue'
 import toastr from './misc/toastr.esm'
 import axios from 'axios'
 
@@ -35,6 +36,9 @@ http.interceptors.response.use(response => {
   toastr.error(response.data.msg || error)
   return Promise.reject(error)
 })
+
+// 将在各处使用该事件中心，组件通过它来通信
+export const EventBus = new Vue()
 
 export const Foo = {
   list: () => http.get('foo/list'),
