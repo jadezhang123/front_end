@@ -1,18 +1,26 @@
 <template>
-  <div class="hello">
+  <div>
     <div>{{msg}}</div>
+    <div v-for="item in items">{{item}}</div>
   </div>
 </template>
 
 <script>
+  import {Foo} from '../resources'
+
   export default {
     name: 'MyFoo',
-    data: () => ({msg: 'this is foo'}),
+    data: () => ({
+      msg: 'this is foo',
+      items: []
+    }),
     beforeRouteEnter (to, from, next) {
-      next(vm => {
-        vm.msg = 'this is foo2'
+      Foo.list().then(response => {
+        next(vm => {
+          vm.items = response.data || []
+          vm.msg = 'msg changed to foo1'
+        })
       })
-    },
-    methods: {}
+    }
   }
 </script>
