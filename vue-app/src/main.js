@@ -6,10 +6,13 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+// 添加事件中心
+Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: {App}
 })

@@ -23,15 +23,13 @@
 </template>
 
 <script>
-  import {EventBus} from '../resources'
-
   export default {
     name: 'HelloWorld',
     created: function () {
-      EventBus.$on('bottom_click', this.bottomClick)
+      this.$eventHub.$on('bottom_click', this.bottomClick)
     },
     beforeDestroy: function () {
-      EventBus.$off('bottom_click', this.bottomClick)
+      this.$eventHub.$off('bottom_click', this.bottomClick)
     },
     data: () => ({msg: 'Welcome to Your Vue.js App'}),
     methods: {

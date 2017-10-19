@@ -5,8 +5,6 @@
 </template>
 
 <script>
-  import {EventBus} from '../../resources'
-
   export default {
     name: 'Bottom',
     data: () => ({
@@ -15,7 +13,7 @@
     methods: {
       click: function (index) {
         this.msg = 'bottom changed'
-        EventBus.$emit('bottom_click')
+        this.$eventHub.$emit('bottom_click')
       }
     }
   }
