@@ -3,9 +3,9 @@
  */
 import Greeter from './js/greeter'
 import moment from 'moment'
-
+import $ from 'jquery'
 import './css/main.css'
 
 Greeter.sayHi('jack')
 console.log(Greeter.name)
-document.querySelector('#user').innerHTML = 'hi: ' + Greeter.name + ' at ' + moment().format('yyyy-MM-dd')
+$('#user').html('hi,' + Greeter.name + ' at ' + moment().format('yyyy-MM-dd'))
