@@ -4,7 +4,7 @@
 import Greeter from './js/greeter'
 import moment from 'moment'
 import $ from 'jquery'
-import './css/main.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 Greeter.sayHi('jack')
 console.log(Greeter.name)

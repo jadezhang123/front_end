@@ -3,12 +3,12 @@
  */
 var path = require('path')
 var webpack = require('webpack')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+var CleanWebpackPlugin = require('clean-webpack-plugin')
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: {
-        main: __dirname + '/src/main.js',
+        main: __dirname + '/src/app.js',
     },
     output: {
         filename: '[name].[chunkhash].js',
