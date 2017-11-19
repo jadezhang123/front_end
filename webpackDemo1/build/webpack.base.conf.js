@@ -34,7 +34,8 @@ module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
             jQuery: 'jquery',
-            $: 'jquery'
+            $: 'jquery',
+            Tether: 'tether'
         })
     ],
     module: {
@@ -70,8 +71,8 @@ module.exports = {
                 }
             },
             {
-                test: require.resolve('jquery'),  // 此loader配置项的目标是NPM中的jquery
-                loader: 'expose-loader?$!expose-loader?jQuery' // 先把jQuery对象声明成为全局变量`jQuery`，再通过管道进一步又声明成为全局变量`$`
+                test: require.resolve('jquery'),
+                loader: 'expose-loader?$!expose-loader?jQuery'
             }
         ]
     }

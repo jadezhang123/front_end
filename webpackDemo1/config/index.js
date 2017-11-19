@@ -27,15 +27,13 @@ module.exports = {
     env: {
       NODE_ENV: '"development"'
     },
-    port: 4000,
+    port: 4001,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        //target: 'http://test-pm.xuehu365.com',
         target: 'http://localhost:8084',
-        // target: 'http://192.168.1.161:8080',
         changeOrigin: true,
         pathRewrite: {'^/api': ''}
       }

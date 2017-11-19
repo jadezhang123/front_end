@@ -74,8 +74,9 @@
     "webpack-merge": "^4.1.0"
   },
   "dependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
     "jquery": "^3.2.1",
     "moment": "^2.19.1",
-    "bootstrap": "^4.0.0-alpha.6"
+    "tether": "^1.4.1"
   }
 }
